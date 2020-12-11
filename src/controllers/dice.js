@@ -1,23 +1,28 @@
 exports.rollDices = (req, res) => {
-    let diceList = [];
-    let operations = '';
-    var result = 0;
+    var diceList = [];
+    var hist = '';
+    var sum = 0;
+    var dices = []
 
     diceList = req.body.dices;
     console.log(diceList);
 
     diceList.forEach((dice) => {
         for(let i = 0; i < dice.qty; i++) {
-            let roll = Math.floor(Math.random() * dice.type) + 1;
+            let roll = Math.floor(Math.random() * dice.faces) + 1;
             
-            result += roll;
-            operations += `${roll} (d${dice.type}) + `;
+            sum += roll;
+            hist += `${roll} (d${dice.faces}) + `;
+            dices.push({
+                faces: dice.faces,
+                value: roll
+            });
         }        
     });
 
-    let opsAux = operations.split('');
+    let opsAux = hist.split('');
     opsAux.splice(opsAux.length - 3, 3);
-    operations =  opsAux.join('') + ` = ${result}`;
+    hist =  opsAux.join('') + ` = ${sum}`;
 
-    res.status(200).json({result, operations});
+    res.status(200).json({sum, hist, dices});
 }

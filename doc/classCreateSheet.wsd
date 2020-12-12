@@ -1,0 +1,3 @@
+@startuml FlowCreateCharacter
+title Flow to create character
+@enduml

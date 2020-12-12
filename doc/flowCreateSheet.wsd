@@ -1,0 +1,11 @@
+@startuml FlowCreateCharacter
+title Flow to create character
+user -> controller_API : character data
+controller_API -> service_API : validations
+service_API --> controller_API : error
+note right: If fail validation
+service_API -> database : salve data
+database --> service_API : confirmation
+service_API --> controller_API : confirmation
+controller_API --> user : confirmation
+@enduml

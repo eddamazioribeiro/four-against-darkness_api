@@ -6,6 +6,7 @@ require('dotenv').config();
 // routes
 const mainRoutes = require('./routes/main');
 const diceRoutes = require('./routes/dice');
+const statusRoutes = require('./routes/status');
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(bodyParser.json());
 // routing
 app.use('/api', mainRoutes);
 app.use('/api', diceRoutes);
+app.use('/api', statusRoutes);
 
 // DB connection
 mongoose.connect(DB_CONNECTION, {

@@ -80,8 +80,6 @@ const updateStatus = async (req, res) => {
   let {statusId} = req.params;
   let status = req.body;
   
-  console.log('status', status);
-
   try {
     let updatedStatus = await serviceUpdate(statusId, status);
 

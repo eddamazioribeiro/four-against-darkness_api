@@ -27,7 +27,6 @@ const serviceListAll = async () => {
 
 const serviceUpdate = async (statusId, status) => {
   let updatedStatus = await dataUpdate(statusId, status);
-  console.log('updatedStatus', updatedStatus);
 
   return updatedStatus;
 }

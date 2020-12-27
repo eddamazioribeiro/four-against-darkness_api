@@ -7,6 +7,7 @@ require('dotenv').config();
 const mainRoutes = require('./routes/main');
 const diceRoutes = require('./routes/dice');
 const statusRoutes = require('./routes/status');
+const errorHandler = require('./helpers/errorHandler');
 
 const app = express();
 
@@ -21,6 +22,8 @@ app.use(bodyParser.json());
 app.use('/api', mainRoutes);
 app.use('/api', diceRoutes);
 app.use('/api', statusRoutes);
+
+app.use(errorHandler);
 
 // DB connection
 mongoose.connect(DB_CONNECTION, {

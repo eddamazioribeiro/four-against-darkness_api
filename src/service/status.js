@@ -6,11 +6,21 @@ const {
   dataRemoveAll,
   dataListAll
 } = require('../data/status');
+const {BadRequest, ValidationFieldError} = require('../helpers/error');
 
 const serviceInsert = async (status) => {
-  let createdStatus = await dataInsert(status);
+  if (!status.name) throw new ValidationFieldError('Required field', 'Name');
+  if (!status.description) throw new ValidationFieldError('Required field', 'Description');
+  if (!status.type) throw new ValidationFieldError('Required field', 'Type');
+  if (!status.modifierValue) throw new ValidationFieldError('Required field', 'Modifier');
+  if (!status.duration) throw new ValidationFieldError('Required field', 'Duration');
 
-  return createdStatus;
+  try {
+    let createdStatus = await dataInsert(status);
+    return createdStatus;
+  } catch (err) {
+    throw new BadRequest(err);    
+  }
 }
 
 const serviceFindById = async (statusId) => {

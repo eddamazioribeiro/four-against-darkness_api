@@ -7,7 +7,7 @@ const {
   serviceRemoveAll
 } = require('../service/status');
  
-const createStatus = async (req, res) => {
+const createStatus = async (req, res, next) => {
   const status = req.body;
   let result = {};
 
@@ -21,12 +21,7 @@ const createStatus = async (req, res) => {
 
     return res.status(200).json(result);
   } catch (err) {
-    result = {
-      success: false,
-      data: err
-    }
-    
-    return res.status(400).json(result);    
+    next(err);
   }  
 }
 

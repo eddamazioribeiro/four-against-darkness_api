@@ -1,16 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const {
-    create,
-    findById, 
-    update,
-    remove,
-    list} = require('../controllers/status');
+  createStatus,
+  findStatusById,
+  listAllStatus,
+  updateStatus,
+  deleteStatus,
+  deleteAllStatus
+} = require('../controllers/status');
 
-router.post('/status', create);
-router.get('/status/:statusId', findById);
-router.get('/status', list);
-router.put('/status/:statusId', update);
-router.delete('/status/:statusId', remove);
+router.post('/status', createStatus);
+router.get('/status/:statusId', findStatusById);
+router.get('/status', listAllStatus);
+router.put('/status/:statusId', updateStatus);
+router.delete('/status/:statusId', deleteStatus);
+router.delete('/status', deleteAllStatus);
 
 module.exports = router;

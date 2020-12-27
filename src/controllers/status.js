@@ -1,76 +1,156 @@
-const Status = require('../models/status');
+const {
+  serviceInsert,
+  serviceFindById,
+  serviceListAll,
+  serviceUpdate,
+  serviceRemove,
+  serviceRemoveAll
+} = require('../service/status');
+ 
+const createStatus = async (req, res) => {
+  const status = req.body;
+  let result = {};
 
-exports.create = (req, res) => {
-    const status = new Status(req.body);
+  try {
+    let newStatus = await serviceInsert(status);
 
-    status.save((err, data) => {
-        if (err) {
-            res.status(400).json({
-                error: err
-            });
-        } else {
-            res.status(200).json(data);
-        }
-    });
+    result = {
+      success: true,
+      data: newStatus
+    }    
+
+    return res.status(200).json(result);
+  } catch (err) {
+    result = {
+      success: false,
+      data: err
+    }
+    
+    return res.status(400).json(result);    
+  }  
 }
 
-exports.findById = (req, res) => {
-    let {statusId}  = req.params;
+const findStatusById = async (req, res) => {
+  let {statusId} = req.params;
+  let result = {};
 
-    Status.findById(statusId).exec((err, status) => {
-        if (err || !status) {
-            res.status(400).json({
-                error: `Status with ID ${statusId} not found`
-            });
-        } else {
-            res.status(200).json(status);
-        }
-    });
+  try {
+    let status = await serviceFindById(statusId);
+
+    result = {
+      success: true,
+      data: status
+    }    
+
+    return res.status(200).json(result);
+  } catch (err) {
+    result = {
+      success: false,
+      data: err
+    }
+    
+    return res.status(400).json(result);    
+  }  
 }
 
-exports.update = (req, res) => {
-    let {statusId} = req.params;
-    let {
-        name,
-        description,
-        type,
-        modifierValue,
-        duration} = req.body;
+const listAllStatus = async (req, res) => {
+  let result = {};
 
-    Status.findByIdAndUpdate(
-            statusId,
-            {name, description, type, modifierValue, duration},
-            {new: true}
-        ).exec((err, data) => {
-            if (err) {
-                res.status(400).json(err);
-            } else {
-                res.status(200).json(data);
-            }
-        });
+  try {
+    let statusList = await serviceListAll();
+
+    result = {
+      success: true,
+      data: statusList
+    }    
+
+    return res.status(200).json(result);
+  } catch (err) {
+    result = {
+      success: false,
+      data: err
+    }
+    
+    return res.status(400).json(result);    
+  }  
 }
 
-exports.remove = (req, res) => {
-    let {statusId} = req.params;
+const updateStatus = async (req, res) => {
+  let result = {};
+  let {statusId} = req.params;
+  let status = req.body;
+  
+  console.log('status', status);
 
-    Status.findByIdAndDelete(statusId).exec((err, data) => {
-        if (err) {
-            res.status(400).json(err);
-        } else {
-            res.status(200).json(data);
-        }      
-    });
+  try {
+    let updatedStatus = await serviceUpdate(statusId, status);
+
+    result = {
+      success: true,
+      data: updatedStatus
+    }    
+
+    return res.status(200).json(result);
+  } catch (err) {
+    result = {
+      success: false,
+      data: err
+    }
+    
+    return res.status(400).json(result);    
+  }  
 }
 
-exports.list = (req, res) => {
-    Status.find({})
-        .limit(10)
-        .sort({createdAt: -1})
-        .exec((err, data) => {
-            if (err) {
-                res.status(400).json(err);
-            } else {
-                res.status(200).json(data);
-            }
-        });
+const deleteStatus = async (req, res) => {
+  let {statusId} = req.params;
+  
+  try {
+    let result = await serviceRemove(statusId);
+
+    result = {
+      success: true,
+      data: result
+    }    
+
+    return res.status(200).json(result);
+  } catch (err) {
+    result = {
+      success: false,
+      data: err
+    }
+    
+    return res.status(400).json(result);    
+  }  
 }
+
+const deleteAllStatus = async (req, res) => {
+  try {
+    let result = await serviceRemoveAll();
+
+    result = {
+      success: true,
+      data: {
+        deletedCount: result.deletedCount,
+        info: result
+      }
+    }    
+
+    return res.status(200).json(result);
+  } catch (err) {
+    result = {
+      success: false,
+      data: err
+    }
+    
+    return res.status(400).json(result);    
+  }  
+}
+
+module.exports = {
+  createStatus,
+  findStatusById,
+  listAllStatus,
+  updateStatus,
+  deleteStatus,
+  deleteAllStatus
+};

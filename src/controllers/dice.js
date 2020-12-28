@@ -32,7 +32,7 @@ exports.rollDices = (req, res) => {
 	hist =  opsAux.join('') + ` = ${sum}`;
 
 	res.status(200).json({sum, hist, dices});
-}
+};
 
 exports.isDiceValid = (dice) => {
 	if(dice.faces == undefined || dice.faces == 0) {
@@ -40,4 +40,4 @@ exports.isDiceValid = (dice) => {
 	}
 
 	return true;
-}
+};

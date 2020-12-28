@@ -1,42 +1,16 @@
+
 const express = require('express');
-const morgan = require('morgan');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-require('dotenv').config();
-// routes
-const mainRoutes = require('./routes/main');
-const diceRoutes = require('./routes/dice');
-const statusRoutes = require('./routes/status');
-const errorHandler = require('./helpers/errorHandler');
+const initLoader = require('./loaders/index');
+const mongooseLoader = require('./loaders/mongoose');
+const routesLoader = require('./loaders/routes');
 
 const app = express();
 
-const PORT = process.env.DEFAULT_PORT;
-const DB_CONNECTION = process.env.DB_CONN_STRING;
+initLoader.init(app);
+routesLoader.init(app);
 
-// middleware
-app.use(morgan('dev'));
-app.use(bodyParser.json());
-
-// routing
-app.use('/api', mainRoutes);
-app.use('/api', diceRoutes);
-app.use('/api', statusRoutes);
-
-app.use(errorHandler);
-
-// DB connection
-mongoose.connect(DB_CONNECTION, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true
-}).then(() => {
-    console.log('DB connected');
+initLoader.startServer(app).then(() => {
+  mongooseLoader.connectToDatabase();
 }).catch((err) => {
-    console.log(`Error connecting to the database:\n ${err}`)
-});
-
-app.listen(PORT, () => {
-    console.log(`Application is running on port ${PORT}`);
+  console.log(`Error initializing the application: ${err}`);
 });

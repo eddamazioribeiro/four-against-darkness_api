@@ -23,7 +23,7 @@ const createStatus = async (req, res, next) => {
   } catch (err) {
     next(err);
   }  
-}
+};
 
 const findStatusById = async (req, res) => {
   let {statusId} = req.params;
@@ -46,7 +46,7 @@ const findStatusById = async (req, res) => {
     
     return res.status(400).json(result);    
   }  
-}
+};
 
 const listAllStatus = async (req, res) => {
   let result = {};
@@ -68,7 +68,7 @@ const listAllStatus = async (req, res) => {
     
     return res.status(400).json(result);    
   }  
-}
+};
 
 const updateStatus = async (req, res) => {
   let result = {};
@@ -92,7 +92,7 @@ const updateStatus = async (req, res) => {
     
     return res.status(400).json(result);    
   }  
-}
+};
 
 const deleteStatus = async (req, res) => {
   let {statusId} = req.params;
@@ -114,7 +114,7 @@ const deleteStatus = async (req, res) => {
     
     return res.status(400).json(result);    
   }  
-}
+};
 
 const deleteAllStatus = async (req, res) => {
   try {
@@ -137,7 +137,7 @@ const deleteAllStatus = async (req, res) => {
     
     return res.status(400).json(result);    
   }  
-}
+};
 
 module.exports = {
   createStatus,

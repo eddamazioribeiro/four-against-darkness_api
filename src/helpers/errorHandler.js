@@ -1,4 +1,4 @@
-const {GeneralError} = require('./error');
+const {GeneralError} = require('./Errors');
 
 const errorHandler = (err, req, res, next) => {
   if (err instanceof GeneralError) {
@@ -12,6 +12,6 @@ const errorHandler = (err, req, res, next) => {
     success: false,
     data: err.getMessage()
   });
-}
+};
 
 module.exports = errorHandler;

@@ -45,7 +45,7 @@ class Forbbiden extends GeneralError {};
 
 class NotFound extends GeneralError {};
 
-class ValidationError extends GeneralError {}
+class ValidationError extends GeneralError {};
 
 class DatabaseError extends GeneralError {
   constructor(errorMessage, error) {
@@ -56,7 +56,7 @@ class DatabaseError extends GeneralError {
   getMessage() {
     return this.errors;
   }
-}
+};
 
 class ValidationFieldError extends GeneralError {
   constructor(errorMessage, fieldName) {
@@ -68,7 +68,7 @@ class ValidationFieldError extends GeneralError {
     let messageAux = (!this.fieldName) ? '' : ` [${this.fieldName}]`;
     return this.message + messageAux;
   }
-}
+};
 
 module.exports = {
   GeneralError,
